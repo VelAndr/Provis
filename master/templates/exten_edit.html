@@ -1,0 +1,46 @@
+$def with (a,b)
+$var topmenu: provis
+
+
+<h1 align="center">Редактированиe номера $a[0]</h1>
+<form action="" method="POST">
+    <input type="hidden" name="formname" value="change">
+    Пароль пользователя:
+    <input type="text" name="passw" size="10" maxlength="32" value="$a[1]">
+    Caller_ID:
+    <input type="text" name="callerid" size="20" maxlength="32" value="$a[2]">
+    <input type="submit"  value="Изменить">
+</form>
+$if a[3]=="!":
+    <form action="" method="POST">
+        <input type="hidden" name="formname" value="link">
+        <BR>
+        Подключить номер к устройству: <BR>
+        Устройство:
+        <select name="device" size="1">
+            $for i in b.keys():
+                <option value="$b[i][0]"> $b[i][1] / $i
+                $if len(b[i][3])>0:
+                    / (
+                    $for j in b[i][3]:
+                       $j
+                    использ.)
+                </option>
+        </select>
+        Линия:
+        <select name="line" size="1">
+            $for i in range(1,8):
+                <option value="$i">Линия $i</option>
+        </select>
+        <input type="submit"  value="Подключить">
+    </form>
+    Номер не подключен к устройству
+$else:
+    <H3>Информация по подключенному устройству:</H3>
+    Устройство <B>$a[3]</B>, расположенное в <B>[ $a[4] ]</B><BR>
+    MAC адрес - <B>$a[5]</B>, линия № <B>$a[6]</B>
+    <form action="" method="POST">
+        <input type="hidden" name="formname" value="unlink">
+        <input type="hidden" name="exten" value="$a[0]">
+        <input type="submit"  value="Отключить">
+    </form>

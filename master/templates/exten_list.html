@@ -1,0 +1,78 @@
+$def with (det, a, b)
+$var topmenu: provis
+
+<script language="JavaScript" src="/static/jquery-1.7.2.min.js"></script>
+<script language="JavaScript" src="/static/jquery.columnfilters.js"></script>
+
+<script language="JavaScript">
+    $$(document).ready(function() {
+        $$('table#extTable').columnFilters({excludeColumns:[0]});
+    });
+
+function setChecked(obj) {
+   var check = document.getElementsByName("delet");
+   for (var i=0; i<check.length; i++) {
+      check[i].checked = obj.checked;
+   }
+}
+</script>
+
+$if len(a.keys()) > 0:
+    <form action="" method="POST">
+    <input type="hidden" name="formname" value="delete">
+    <h1>Список пользователей</h1>
+    <A href="/exten?list=A">Все</A>&nbsp;
+    <A href="/exten?list=L">Подключенные</A>&nbsp;
+    <A href="/exten?list=U">Неподключенные</A>&nbsp;
+
+    <table border="1" id="extTable">
+    <thead>
+    <tr>
+        <th><input type="checkbox" name="set" onclick="setChecked(this)" /></th>
+        <th>Номер</th>
+        <th>Пароль</th>
+        <th>CallerID</th>
+        $if det:
+        <th>Устройство</th>
+    </tr>
+    </thead>
+    <tbody>
+    $for i in b:
+        <tr class="$loop.parity">
+            <td><input type="checkbox" name="delet" value="$a[i][0]"></td>
+            <td><a href="/eedit/$a[i][0]">$i</a></td>
+            <td>$a[i][1]</td>
+            <td>$a[i][2]</td>
+            $if det:
+                <td>$a[i][3]</td>
+        </tr>
+    </tbody>
+    </table>
+    <input type="submit"  value="Удалить выбранные">
+    </form>
+$else:
+    Список пуст
+
+<form action="" method="POST">
+<input type="hidden" name="formname" value="addgroup">
+<p><h3>Добавить группу пользователей (пароли генерируются автоматически):</h3>
+Начальный номер
+<input type="text" name="startnum" size="7" maxlength="7">
+Конечный номер
+<input type="text" name="endnum" size="7" maxlength="7">
+<input type="submit"  value="Добавить серию"   >
+</form>
+</p>
+<p>
+<form action="" method="POST">
+<input type="hidden" name="formname" value="add">
+<h3>Добавить пользователя:</h3>
+Пользователь
+<input type="text" name="user" size="7" maxlength="7">
+Caller ID
+<input type="text" name="callerid" size="20" maxlength="30">
+Пароль
+<input type="text" name="password" size="10" maxlength="16">
+<input type="submit"  value="Добавить номер">
+</form>
+</p>

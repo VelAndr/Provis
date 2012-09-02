@@ -1,0 +1,66 @@
+$def with (det, a, b,ind)
+$var topmenu: provis
+
+<script language="JavaScript" src="/static/jquery-1.7.2.min.js"></script>
+<script language="JavaScript" src="/static/jquery.columnfilters.js"></script>
+
+<script language="JavaScript">
+    $$(document).ready(function() {
+        $$('table#devTable').columnFilters({excludeColumns:[0,6,7]});
+    });
+
+function setChecked(obj)
+   {
+
+   var check = document.getElementsByName("delet");
+   for (var i=0; i<check.length; i++)
+      {
+      check[i].checked = obj.checked;
+      }
+   }
+</script>
+
+$if len(b)>0:
+    <form action="" method="POST">
+    <input type="hidden" name="formname" value="delete">
+    <h1>Список устройств</h1>
+    <A href="/device?list=A">Все</A>&nbsp;
+    <A href="/device?list=L">Подключенные</A>&nbsp;
+    <A href="/device?list=U">Неподключенные</A>&nbsp;
+    <table border="1" id="devTable">
+    <thead>
+    <tr align="center">
+        <th><input type="checkbox" name="set" onclick="setChecked(this)" /></th>
+        <th>Тип</th>
+        <th>MAC адрес</th>
+        <th>Серийный номер</th>
+        <th>Местоположение</th>
+        <th>Профиль</th>
+        $if det:
+        <th>Использование</th>
+        <th>Комментарий</th>
+    </tr>
+
+    </thead>
+    $for i in b:
+        $for j in ind[i]:
+            <tr class="$loop.parity">
+                <td><input type="checkbox"  name="delet" value="$a[j][0]"></td>
+                <td>$i</td>
+                <td><a href="/dedit/$a[j][0]">$j</a></td>
+                <td>$a[j][1]</td>
+                <td>$a[j][4]</td>
+                <td>$a[j][2]</td>
+                $if det:
+                    <td>
+                    $for k in a[j][3]:
+                        $k <BR>
+                    </td>
+                <td>$a[j][5]</td>
+            </tr>
+    </table>
+    <input type="submit"  value="Удалить выбранные">
+    </form>
+$else:
+    Список пуст
+

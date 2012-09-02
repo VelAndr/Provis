@@ -1,0 +1,74 @@
+$def with (a, b)
+$var topmenu: provis
+
+<script language="JavaScript" src="/static/jquery-1.7.2.min.js"></script>
+<script language="JavaScript" src="/static/jquery.columnfilters.js"></script>
+
+<script language="JavaScript">
+    $$(document).ready(function() {
+        $$('table#profTable').columnFilters({excludeColumns:[0,3,4]});
+    });
+
+function setChecked(obj) {
+   var check = document.getElementsByName("delet");
+   for (var i=0; i<check.length; i++) {
+      check[i].checked = obj.checked;
+   }
+}
+</script>
+
+$if len(a)>0:
+    <form action="" method="POST">
+    <input type="hidden" name="formname" value="delete">
+    <h1>Список профилей</h1>
+    <table border="1" id="profTable">
+    <thead>
+    <tr>
+        <th><input type="checkbox" name="set" onclick="setChecked(this)" /></th>
+        <th>Имя профиля</th>
+        <th>Тип устройства</th>
+        <th>Девайсов</th>
+        <th>Записей</th>
+    </tr>
+    </thead>
+
+    $for i in a.keys():
+        <tr class="$loop.parity">
+        <td><input type="checkbox"  name="delet" value="$i"></td>
+        <td><a href="/pedit/$i">$a[i][0]</a></td>
+        <td>$a[i][1]</td>
+        <td>$a[i][3]</td>
+        <td>$a[i][2]</td>
+        </tr>
+    </table>
+    <input type="submit"  value="Удалить выбранные">
+     <input type="reset"  value="Сбросить выделение">
+    </form>
+$else:
+    Список пуст
+<BR><BR>
+<form action="" method="POST">
+<input type="hidden" name="formname" value="add">
+Создать профиль:
+<input type="text" name="newprof" size="10" maxlength="20">
+устройство:
+<select size="1" name="device">
+    $for i in b:
+        <option value="$i">$i </option>
+</select>
+<input type="submit"  value="Создать">
+</form>
+<BR>
+
+<form action="" method="POST">
+<input type="hidden" name="formname" value="copy">
+Профиль
+<select size="1" name="prof">
+$for i in a.keys():
+    <option value="$i">$a[i][0]</option>
+
+</select>
+скопировать в:
+<input type="text" name="newprof" size="10" maxlength="20">
+<input type="submit"  value="Скопировать">
+</form>

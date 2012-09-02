@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Работа с ячейками таблицы</title>
+    <meta http-equiv="content-type" content="text/html; "/>
+</head>
+<body>
+
+
+
+<table id="table1" border="1">
+    <tr id="row1">
+        <td id="cell1">Ячейка 1</td>
+        <td id="cell2">Ячейка 2</td>
+    </tr>
+    <tr id="row2">
+        <td id="cell3">Ячейка 3</td>
+        <td id="cell4">Ячейка 4</td>
+    </tr>
+</table>
+
+
+
+<script type="text/javascript">
+    <!--
+    var theTable = document.getElementById("table1");
+
+    function doRowInsert(row) {
+        var rowNumber = parseFloat(row);
+        if ((rowNumber >= 0) && (rowNumber <= theTable.rows.length))
+            theTable.insertRow(rowNumber);
+    }
+
+    function doCellInsert(row, column) {
+        var rowNumber = parseFloat(row);
+        var colNumber = parseFloat(column);
+        var numberRowsInTable = theTable.rows.length;
+        if ((rowNumber >= 0 ) && (colNumber >= 0)) {
+            if (rowNumber >= numberRowsInTable) {
+                alert("Нельзя добавлять за пределами определенных строк");
+                return;
+            }
+            if (colNumber > theTable.rows[rowNumber].cells.length) {
+                alert("Нельзя добавлять за пределами столбцов");
+                return;
+            }
+            theTable.rows[rowNumber].insertCell(colNumber);
+        }
+    }
+
+    function doCellModification(row, column, newValue) {
+        var rowNumber = parseFloat(row);
+        var colNumber = parseFloat(column);
+        var numberRowsInTable = theTable.rows.length;
+        if ((rowNumber >= 0 ) && (colNumber >= 0)) {
+            if (rowNumber >= numberRowsInTable) {
+                alert("Нельзя");
+                return;
+            }
+            if (colNumber >= theTable.rows[rowNumber].cells.length) {
+                alert("Нельзя модифицировать ячейки за пределами таблицы");
+                return;
+            }
+            theTable.rows[rowNumber].cells[colNumber].innerHTML = newValue;
+        }
+    }
+
+    function doCellDelete(row, column) {
+        var rowNumber = parseFloat(row);
+        var colNumber = parseFloat(column);
+        var numberRowsInTable = theTable.rows.length;
+        if ((rowNumber >= 0 ) && (colNumber >= 0)) {
+            if (rowNumber >= numberRowsInTable) {
+                alert("Нельзя удалять за пределами строк");
+                return;
+            }
+            if (colNumber >= theTable.rows[rowNumber].cells.length) {
+                alert("Нельзя удалять за пределами столбцов");
+                return;
+            }
+            theTable.rows[rowNumber].deleteCell(colNumber);
+        }
+    }
+    //-->
+</script>
+
+
+<form name="testForm" id="testForm" action="#" method="get">
+    Строка #: <input type="text" name="rowtoinsert" id="rowtoinsert" size="2"
+                     maxlength="2" value="1"/>
+    <input type="button" value="Вставить строку"
+           onclick="doRowInsert(document.testForm.rowtoinsert.value);"/><br/>
+    Строка #: <input type="text" name="insertionRow" id="insertionRow" size="2"
+                     maxlength="2" value="0"/>
+    Столбец #: <input type="text" name="insertionColumn" id="insertionColumn" size="2"
+                      maxlength="2" value="0"/>
+    <input type="button" value="Вставить ячейку"
+           onclick=" doCellInsert(document.testForm.insertionRow.value, document.testForm.insertionColumn.value) ;"/><br/>
+    Строка #: <input type="text" name="modifyRow" id="modifyRow" size="2" maxlength="2"
+                     value="0"/>
+    Столбец #: <input type="text" name="modifyColumn" id="modifyColumn" size="2"
+                      maxlength="2" value="0"/>
+    Новое содержимое: <input type="text" name="newContents" id="newContents" size="20"
+                             maxlength="20" value=""/>
+    <input type="button" value="Установить"
+           onclick="doCellModification( document.testForm.modifyRow.value,document.testForm.modifyColumn.value, document.testForm.newContents.value) ;"/><br/>
+    Строка #: <input type="text" name="deletionRow" id="deletionRow" size="2"
+                     maxlength="2" value="0"/>
+    Столбец #: <input type="text" name="deletionColumn" id="deletionColumn" size="2" maxlength="2" value="0"/>
+    <input type="button" value="Удалить ячейку"
+           onclick="doCellDelete(document.testForm.deletionRow.value, document.testForm.deletionColumn.value);"/><br/>
+</form>
+</body>
+</html> 

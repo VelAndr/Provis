@@ -1,0 +1,99 @@
+$def with (prof,a)
+$var topmenu: provis
+
+<script language="JavaScript" src="/static/jquery-1.7.2.min.js"></script>
+<script language="JavaScript" src="/static/jquery.columnfilters.js"></script>
+
+<script language="JavaScript">
+    $$(document).ready(function() {
+        $$('table#profTable').columnFilters({excludeColumns:[0,3]});
+    });
+
+function setChecked(obj) {
+   var check = document.getElementsByName("delet");
+   for (var i=0; i<check.length; i++) {
+      check[i].checked = obj.checked;
+   }
+}
+
+function copyRow(rrow,idr) {
+    tmp='\\)\\;\\"\\>(.*)\\<\\/';
+    rrow++;
+    var tabl = document.getElementById("profTable");
+    var frm = document.getElementById("changeform");
+    var str1 = tabl.rows[rrow].cells[1].innerHTML;
+    var str2 = tabl.rows[rrow].cells[2].innerHTML;
+    var str3 = tabl.rows[rrow].cells[3].innerHTML;
+    var qwe=str1.match(tmp);
+    frm.id.value=idr;
+    frm.name.value=qwe[1];
+    frm.parm.value=str2;
+    frm.value.value=str3;
+    window.scrollTo(0,99999);
+}
+</script>
+<p>
+<A href="/pedit/$prof">Все</A>&nbsp;
+<A href="/pedit/$prof?fold=0">Непривязанные</A>&nbsp;
+<A href="/pedit/$prof?fold=1">Сеть</A>&nbsp;
+<A href="/pedit/$prof?fold=2">Аккаунты</A>&nbsp;
+<A href="/pedit/$prof?fold=3">Важные</A>&nbsp;
+<A href="/pedit/$prof?fold=4">Неважные</A>&nbsp;
+<A href="/pedit/$prof?fold=5">Остальные</A>&nbsp;
+</p>
+$if len(a)>0:
+    <form action="" method="POST">
+    <input type="hidden" name="formname" value="delete">
+    <h1>Редактирование профиля</h1>
+    <table border="1" id="profTable">
+    <thead>
+    <tr>
+        <th><input type="checkbox" name="set" onclick="setChecked(this)" /></th>
+        <th>Параметр</th>
+        <th>Доп.</th>
+        <th>Значение</th>
+    </tr>
+    </thead>
+    <tfoot></tfoot>
+    <tbody>
+
+    $for i in a.keys():
+        <tr class="$loop.parity">
+        <td><input type="checkbox"  name="delet" value="$i"></td>
+        <td><A href="javascript:void(0);" onclick="copyRow($loop.index,$i);">$a[i][0]</A></td>
+        <td>$a[i][1]</td>
+        <td>$a[i][2]</td>
+        </tr>
+    </tbody>
+    </table>
+    <input type="submit" name="del" value="Удалить выбранные"> &nbsp;
+    <select size="1" name="foldr">
+        <option value="0"> Без категории </option>
+        <option value="1"> Сеть </option>
+        <option value="2"> Аккаунты </option>
+        <option value="3"> Важные </option>
+        <option value="4"> Неважные </option>
+        <option value="5"> Остальные </option>
+    </select>
+    <input type="submit" name="move" value="Переместить в группу">
+    </form>
+$else:
+    <H3>Список пуст</H3>
+<p>
+<form action="" method="POST" id="changeform">
+    <input type="hidden" name="formname" value="update">
+    <input type="hidden" name="id" value="">
+    <input type="text" name="name" size="30" maxlength="48">
+    <input type="text" name="parm" size="8" maxlength="16">
+    <input type="text" name="value" size="48" maxlength="128">
+    <input type="submit"  value="Изменить">
+</form>
+</p>
+
+<p>
+<form action="" method="POST"  enctype="MULTIPART/FORM-DATA">
+<input type="hidden" name="formname" value="upload">
+Загрузить XML: <input type="file" name="myfile">
+<input type="submit"  value="Загрузить">
+</form>
+</p>

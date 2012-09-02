@@ -1,0 +1,31 @@
+$def with (a,b,c)
+$var topmenu: provis
+<h1 align="center">Редактирование устройства</h1>
+Устройство <B>$a[1]</B>, MAC адрес:<B>$a[0]</B>, Серийный номер:<B>$a[2]</B><BR>
+<form action="" method="POST">
+<input type="hidden" name="formname" value="change">
+Размещение:
+<input type="text" name="place" size="20" maxlength="48" value="$a[3]">
+Комментарий:
+<input type="text" name="comment" size="30" maxlength="48" value="$a[4]">
+Профиль:
+    <select name="profile" size="1">
+        $for i in b:
+        <option value="$i" $b[i][1] > $b[i][0]</option>
+    </select>
+<input type="submit"  value="Изменить">
+</form>
+<BR>
+$if c=={}:
+    Устройство не подключено к номерам.
+$else:
+    <H2>Информация по подключенным номерам:</H2>
+        $for i in c.keys():
+            Линия <B>$i:</B> Номер <B>$c[i]</B><BR>
+
+    <form action="" method="POST">
+    <input type="hidden" name="formname" value="unlink">
+    <input type="hidden" name="device" value="$a[6]">
+    <input type="submit"  value="Отвязать все">
+    </form>
+
